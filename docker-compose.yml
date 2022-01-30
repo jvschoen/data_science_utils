@@ -1,0 +1,23 @@
+version: '3'
+services:
+  jupyter:
+    container_name: jupyter_INSERT_REPO_NAME
+    user: root
+    privileged: true
+    build: jupyter/.
+    restart: always
+    volumes:
+      # Mounting the project dir to the local git repo dir to keep local in sync with remote work
+      - ./jupyter/notebook:/home/jovyan/notebook
+
+      # This ensures we can just have the key in one central location for local and on docker
+      # If this image ends up being pushed to the cloud, then the file must be copied.
+      - $HOME/.aws/credentials:/home/jovyan/.aws/credentials:ro
+      # Provides twitter developer tokens
+      - $HOME/.secrets/twitter.json:ro
+    environment:
+      - GRANT_SUDO=yes
+      - JUPYTER_ENABLE_LAB=yes
+    ports:
+      - "8558:8558"
+      - "4040-4080:4040-4080"

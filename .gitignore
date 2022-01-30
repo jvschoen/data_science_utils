@@ -1,0 +1,7 @@
+zArchive/
+.DS_Store
+venv/
+.idea
+*.code-workspace
+
+.ipynb_checkpoints
